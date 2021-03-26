@@ -8,13 +8,9 @@ version: 0.0.1
 flutter:
   plugin:
     platforms:
-      linux:
         pluginClass: JustAudioPlugin
         fileName: just_audio_vlc.dart
-      windows:
-        pluginClass: JustAudioPlugin
-        fileName: just_audio_vlc.dart
-
+    
 dependencies:
   just_audio_platform_interface: ^3.0.0
   dart_vlc: ^0.0.3

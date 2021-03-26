@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   dart_vlc
-  just_audio_vlc
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
