@@ -1,0 +1,29 @@
+
+name: just_audio_vlc
+description: VLC based implementation of just_audio. 
+homepage: https://github.com/ryanheise/just_audio/tree/master/just_audio_vlc
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 0.0.1
+
+flutter:
+  plugin:
+    platforms:
+      linux:
+        pluginClass: JustAudioPlugin
+        fileName: just_audio_vlc.dart
+      windows:
+        pluginClass: JustAudioPlugin
+        fileName: just_audio_vlc.dart
+
+dependencies:
+  just_audio_platform_interface: ^3.0.0
+  dart_vlc: ^0.0.3
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  pedantic: ^1.10.0
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.5"
