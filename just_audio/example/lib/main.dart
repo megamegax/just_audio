@@ -72,7 +72,9 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _init() async {
     final session = await AudioSession.instance;
-    await session.configure(AudioSessionConfiguration.speech());
+    try {
+      await session.configure(AudioSessionConfiguration.speech());
+    } catch (e) {}
     try {
       await _player.setAudioSource(_playlist);
     } catch (e) {

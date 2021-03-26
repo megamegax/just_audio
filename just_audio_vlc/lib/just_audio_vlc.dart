@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dart_vlc/dart_vlc.dart';
@@ -94,7 +95,7 @@ class VlcAudioPlayer extends JustAudioPlayer {
 
   /// Creates an [VlcAudioPlayer] with the given [id].
   VlcAudioPlayer({required String id}) : super(id: id) {
-    Player.create(id: 0).then((value) {
+    Player.create(id: Random().nextInt(10000)).then((value) {
       _audioElement = value;
       _audioElement.playbackStream.listen((event) {
         if (event.isCompleted) {
@@ -196,7 +197,13 @@ class VlcAudioPlayer extends JustAudioPlayer {
     final src = uri.toString();
     if (src != _audioElement.current.media.resource) {
       _durationCompleter = Completer<dynamic>();
-      _audioElement.add(await Media.network(uri.toString()));
+      if (uri.isScheme("http") || uri.isScheme("https")) {
+        _audioElement.open(await Media.network(uri.toString()));
+      } else if (uri.isScheme("asset")) {
+        _audioElement.open(await Media.asset(uri.toString()));
+      } else {
+        _audioElement.open(await Media.file(File(uri.toString())));
+      }
       try {
         await _durationCompleter!.future;
       } on Exception catch (e) {
@@ -694,8 +701,7 @@ class ClippingAudioSourcePlayer extends IndexedAudioSourcePlayer {
   @override
   Future<Duration?> load() async {
     _resumePos = start ?? Duration.zero;
-    final fullDuration =
-        (await vlcAudioPlayer.loadUri(audioSourcePlayer.uri))!;
+    final fullDuration = (await vlcAudioPlayer.loadUri(audioSourcePlayer.uri))!;
     _audioElement.seek(_resumePos!);
     _duration = Duration(
         milliseconds: min((end ?? fullDuration).inMilliseconds,
